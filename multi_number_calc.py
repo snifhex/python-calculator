@@ -1,12 +1,14 @@
+import math
 expression = input('Enter your expression>\n')
-operators = '+,-,/,%,*,^'
+operators = '+,-,/,%,*,^,l'
 operators_dict = {
     'add':'+', 
     'sub':'-', 
     'div':'/', 
     'modulo':'%', 
     'multi':'*', 
-    'power': '^'
+    'power': '^',
+    'log': 'l'
 }
 
 def add(operands):
@@ -38,10 +40,15 @@ def multiply(operands):
     return result
 
 def power(operands):
-    if len(operands) <2:
+    result = 1
+    if len(operands) <3:
         result = operands[0]**operands[1]
     else:
         print('Power function only need 2 operands, passed more than 2')
+    return result
+
+def log(operands):
+    result = math.log(operands)
     return result
 
 
@@ -64,12 +71,18 @@ def calCore(operator, operands):
     elif operator == operators_dict['power']:
         result = power(operands)
         return result
+    elif operator == operators_dict['log']:
+        result = log(operands)
+        return result
 
 def main():
     for operator in operators:
-        if operator in expression:            
+        if operator in expression:          
             operands = expression.split(operator) 
-            operands = [int(operand) for operand in operands]           
+            if operands[0] == '':
+                operands = int(operands[1])
+            else:
+                operands = [int(operand) for operand in operands]           
             answer = calCore(operator, operands)
             print('Your result is {}'.format(answer))
 
